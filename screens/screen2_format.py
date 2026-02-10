@@ -232,7 +232,7 @@ class Screen2Format(ttk.Frame):
         
         print(f"DEBUG: check_selection() - X='{x_val}', Y='{y_val}', Z='{z_val}'")
         
-        if x_val and y_val and z_val:
+        if x_val != "" and y_val != "" and z_val != "":
             # Проверяем, что все три значения разные
             values = [x_val, y_val, z_val]
             if len(set(values)) == 3:

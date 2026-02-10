@@ -214,9 +214,18 @@ class Screen3Groups(ttk.Frame):
         print(f"DEBUG: check_groups() - {len(groups)} groups, has_groups={has_groups}")
 
         if has_groups:
+            # Обновляем layer_mapping, но сохраняем уже существующие переименования
+            existing_layer_mapping = self.state.get('layer_mapping', {})
             layer_mapping = {}
             for group_info in groups:
-                layer_mapping[group_info['original']] = group_info['merged']
+                original_group = group_info['original']
+                merged_group = group_info['merged']
+                # Если для этой группы уже было переименование слоя, сохраняем его
+                if original_group in existing_layer_mapping:
+                    layer_mapping[original_group] = existing_layer_mapping[original_group]
+                else:
+                    # Иначе используем объединенную группу как имя слоя
+                    layer_mapping[original_group] = merged_group
             self.state['layer_mapping'] = layer_mapping
             print(f"DEBUG: Updated layer_mapping: {layer_mapping}")
 

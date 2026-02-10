@@ -185,7 +185,19 @@ def sanitize_layer_name(name):
 
 
 def extract_group(name):
-    """Извлекает буквенную часть из имени точки."""
+    """Извлекает буквенную часть из имени точки.
+    
+    K1 → K
+    K150 → K
+    NIZR12 → NIZR
+    RIG45 → RIG
+    123 → 123  # числовые имена остаются как есть
+    ABC → ABC
+    """
     import re
     match = re.match(r'^([A-Za-z]+)', str(name))
-    return match.group(1) if match else str(name) if str(name).isalpha() else ""
+    if match:
+        return match.group(1)
+    else:
+        # Если нет букв в начале, возвращаем всё имя как есть (включая числа)
+        return str(name)

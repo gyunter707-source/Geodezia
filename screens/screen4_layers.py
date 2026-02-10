@@ -200,18 +200,21 @@ class Screen4Layers(ttk.Frame):
         """Обновляет данные состояния из таблицы."""
         groups = self.state.get('groups', [])
 
-        layer_mapping = {}
+        # Сначала получаем соответствие между итоговой группой и именем слоя
+        layer_by_merged_group = {}
         for item_id in self.tree.get_children():
             values = self.tree.item(item_id, 'values')
             merged_group = values[0]
             layer_name = values[1]
-            layer_mapping[merged_group] = layer_name
+            layer_by_merged_group[merged_group] = layer_name
 
+        # Теперь строим финальное сопоставление: оригинальная группа -> имя слоя
         updated_layer_mapping = {}
         for group_info in groups:
             original_group = group_info['original']
             merged_group = group_info['merged']
-            layer_name = layer_mapping.get(merged_group, merged_group)
+            # Берем имя слоя по итоговой (слияной) группе
+            layer_name = layer_by_merged_group.get(merged_group, merged_group)
             updated_layer_mapping[original_group] = layer_name
 
         self.state['layer_mapping'] = updated_layer_mapping
