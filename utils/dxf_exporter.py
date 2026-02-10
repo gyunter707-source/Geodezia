@@ -92,7 +92,7 @@ def create_dxf(output_path, points_data, column_mapping, layer_mapping, point_ty
                 # Добавляем круг с центром в точке
                 try:
                     msp.add_circle(
-                        center=(x, y), 
+                        center=(x, y, z),
                         radius=0.05,
                         dxfattribs={'layer': clean_layer}
                     )
